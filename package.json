@@ -1,6 +1,6 @@
 {
   "name": "require-or-mock",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Require a given module if it exists or get a mock",
   "homepage": "https://github.com/sullof/require-or-mock#readme",
   "bugs": {
@@ -17,9 +17,11 @@
     "release": "np",
     "test": "mocha test/test.js --exit"
   },
+  "dependencies": {
+    "fs-extra": "^10.0.0"
+  },
   "devDependencies": {
     "chai": "^4.3.4",
-    "fs-extra": "^10.0.0",
     "mocha": "^9.1.2",
     "np": "^3.0.4"
   }

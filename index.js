@@ -1,5 +1,5 @@
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs-extra')
 
 const configFile = path.join(process.cwd(),'require-or-mock-config.js')
 const config = fs.existsSync(configFile) ? require(configFile) : {}
@@ -10,14 +10,18 @@ function requireOrMock(filepath = '', ...pars) {
   if (create === true) {
     if (fs.existsSync(absolutePath)) {
       return absolutePath
-    } else if (typeof content === 'object') {
-      fs.writeFileSync(absolutePath, JSON.stringify(pars[1], null, 2))
-      return absolutePath
-    } else if (typeof content === 'string') {
-      fs.writeFileSync(absolutePath, pars[1])
-      return absolutePath
     } else {
-      throw new Error('Wrong parameters')
+      if (typeof content === 'object') {
+        fs.ensureDirSync(path.dirname(absolutePath))
+        fs.writeFileSync(absolutePath, JSON.stringify(pars[1], null, 2))
+        return absolutePath
+      } else if (typeof content === 'string') {
+        fs.ensureDirSync(path.dirname(absolutePath))
+        fs.writeFileSync(absolutePath, pars[1])
+        return absolutePath
+      } else {
+        throw new Error('Wrong parameters')
+      }
     }
   }
   let module

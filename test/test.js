@@ -1,7 +1,6 @@
 const {assert} = require('chai')
 const path = require('path')
 const fs = require('fs-extra')
-const some = require('../tmp/somejs');
 let requireOrMock
 
 describe('require-or-mock', async function () {
@@ -9,7 +8,6 @@ describe('require-or-mock', async function () {
   const tmpDir = path.join(process.cwd(), 'tmp')
 
   before(async function(){
-    fs.emptyDir(tmpDir)
     const configSample = await fs.readFile(path.resolve(__dirname, 'fixtures/require-or-mock-config.js'), 'utf8')
     await fs.writeFile(path.join(process.cwd(), 'require-or-mock-config.js'), configSample)
     requireOrMock = require('..')
