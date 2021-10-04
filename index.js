@@ -1,21 +1,37 @@
 const path = require('path')
 const fs = require('fs')
 
-const configFile = path.join(process.cwd(),'require2-config.js')
+const configFile = path.join(process.cwd(),'require-or-mock-config.js')
 const config = fs.existsSync(configFile) ? require(configFile) : {}
 
-function require2(filepath = '', mock) {
+function requireOrMock(filepath = '', ...pars) {
+  const absolutePath = path.join(process.cwd(), filepath)
+  let [create, content] = pars
+  if (create === true) {
+    if (fs.existsSync(absolutePath)) {
+      return absolutePath
+    } else if (typeof content === 'object') {
+      fs.writeFileSync(absolutePath, JSON.stringify(pars[1], null, 2))
+      return absolutePath
+    } else if (typeof content === 'string') {
+      fs.writeFileSync(absolutePath, pars[1])
+      return absolutePath
+    } else {
+      throw new Error('Wrong parameters')
+    }
+  }
   let module
   try {
-    module = require(filepath)
+    module = require(absolutePath)
     return module
   } catch (e) {
-    if (mock) {
-      return mock
+    content = create
+    if (typeof content === 'object') {
+      return content
+    } else {
+      return config[filepath] || {}
     }
-    const moduleName = path.basename(filepath)
-    return config[moduleName] || config[moduleName.replace(/\.\w+$/, '')] || {}
   }
 }
 
-module.exports = require2
+module.exports = requireOrMock

@@ -1,22 +1,26 @@
 {
   "name": "require-or-mock",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Require a given module if it exists or get a mock",
-  "homepage": "https://github.com/sullof/require2#readme",
+  "homepage": "https://github.com/sullof/require-or-mock#readme",
   "bugs": {
-    "url": "https://github.com/sullof/require2/issues"
+    "url": "https://github.com/sullof/require-or-mock/issues"
   },
   "license": "MIT",
   "author": "Francesco Sullo <francesco@sullo.co>",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sullof/require2.git"
+    "url": "git+https://github.com/sullof/require-or-mock.git"
   },
   "scripts": {
-    "release": "np"
+    "release": "np",
+    "test": "mocha test/test.js --exit"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "fs-extra": "^10.0.0",
+    "mocha": "^9.1.2",
     "np": "^3.0.4"
   }
 }
