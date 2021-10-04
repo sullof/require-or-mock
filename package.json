@@ -1,0 +1,22 @@
+{
+  "name": "require-or-mock",
+  "version": "0.0.1",
+  "description": "Require a given module if it exists or get a mock",
+  "homepage": "https://github.com/sullof/require2#readme",
+  "bugs": {
+    "url": "https://github.com/sullof/require2/issues"
+  },
+  "license": "MIT",
+  "author": "Francesco Sullo <francesco@sullo.co>",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sullof/require2.git"
+  },
+  "scripts": {
+    "release": "np"
+  },
+  "devDependencies": {
+    "np": "^3.0.4"
+  }
+}
