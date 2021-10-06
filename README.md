@@ -78,24 +78,23 @@ To do so, you can call
 const requireOrMock = require('require-or-mock')
 const AWS = require('aws-sdk')
 AWS.config.loadFromPath(requireOrMock('awsConfig.json', true, {
-  "accessKeyId": "",
-  "secretAccessKey": "",
-  "region": "us-east-2"
+  accessKeyId: '',
+  secretAccessKey: '',
+  region: 'us-west-2'
 }))
 ```
 After the first run, you will see that a mock file is created where needed.
 
-Notice that the optional parameter are interchangeable, to you prefer the order you like more. Calling
+Notice that the optional parameter are interchangeable and the following works as weel
 ```
 AWS.config.loadFromPath(requireOrMock('awsConfig.json', {
-  "accessKeyId": "",
-  "secretAccessKey": "",
-  "region": "us-east-2"
+  accessKeyId: '',
+  secretAccessKey: '',
+  region: 'us-west-2'
 }, true))
 ```
-works as well.
 
-### Using the config file
+### The config file
 
 You can also set the mock in `require-or-mock-config.js` as
 ```
@@ -122,12 +121,23 @@ For example, you can pass the source code of a JS file as a string:
 
 ```
 const requireOrMock = require('require-or-mock')
-const doSomething = require(requireOrMock('awsConfig.json', true, `module.exports = {
+const doSomething = require(requireOrMock('envConfig.js', true, `module.exports = {
 {
-  accessKeyId: '',
-  hello: name => 'Hello '+ name
+  apiKey: 'sadkaldjewiewjekfjsdfjs',
+  apiSecret: 'sa32482h74d23h84723987h238429d482982'
 }
 }`)
+```
+
+You can also use RequireOrMock to create any file:
+
+```
+const requireOrMock = require('require-or-mock')
+requireOrMock('db/people.csv', true,
+  `name,city,state
+Francesco,San Francisco,CA
+Mark,Austing,TX
+`)
 ```
 
 ## License
