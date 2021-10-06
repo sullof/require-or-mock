@@ -2,6 +2,8 @@
 
 **A replacement for `require` for when the required file could not exist**
 
+_If you are reading this doc on npmjs.com, sometimes I notice minor glitches in the README after publishing it. In those cases, I update the repo without publishing a new version. So, refer all the time to [the README in the repo](https://github.com/sullof/require-or-mock#readme) to be sure you are updated._
+
 ## Mocking possibly missing files
 
 Often, you require files that you do not want to share in the repo. For example, if you like to load some secret keys to be used in a script, you do not share the file. Still, you would like to load it with something like
