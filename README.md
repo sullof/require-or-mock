@@ -20,33 +20,53 @@ In the example above, if the file does not exist, requireOrMock will return an e
 In the example above, it could be:
 ```
 module.exports = {
-  "envs/secretKeys.json": {
-     "someKey": "",
-     "someOtherKey": ""
+  'envs/secretKeys.json': {
+     someKey: '',
+     someOtherKey: ''
   }
 }
 ```
-Alternatively, you inline the mock like:
+Alternatively, you can inline the mock like:
 
 ```
 const requireOrMock = require('require-or-mock')
 const awsConfig = requireOrMock('envs/secretKeys.json', {
-  "someKey": "38r32842472d823hd847328",
-   "someOtherKey": "sjaieijfweifwhjeufsiufhfhwei"
+  someKey: '',
+  someOtherKey: ''
 })
 ```
 
+The inline mock has priority on the mock config file.
+
 If no mock is specified, an empty object will be returned.
+
+## Just 3 params
+
+RequireOrMock accepts three params:
+
+**moduleRelativePath** (String, mandatory)
+
+The first, mandatory, is the path relative to the root of the project of the library we like to require.
+
+**returnFilePathOnly** (Boolean, optional)
+
+If true, it tells RequireOrMock to returns just the path of the module (see example below)
+
+**mock** (Object | String, optional)
+
+It is required only if you expect that the mocked file has specific properties and you didn't set it up in `require-or-mock-config.js`
+
+You can pass `mock` and `returnFilePathOnly` in any order.
+
 
 ## Creating missing but needed files
 
-Another scenario is when you are loading a file that must exist.
+Another common scenario is when you are loading a file that must exist.
 
 For example, you are using aws-sdk and loading the configuration from a json file like:
 
 ```
 const AWS = require('aws-sdk')
-AWS.config.update({region: 'us-east-2'})
 AWS.config.loadFromPath('../../awsConfig.json')
 ```
 
@@ -58,16 +78,47 @@ To do so, you can call
 const requireOrMock = require('require-or-mock')
 const AWS = require('aws-sdk')
 AWS.config.loadFromPath(requireOrMock('awsConfig.json', true, {
-{
   "accessKeyId": "",
   "secretAccessKey": "",
   "region": "us-east-2"
-}
 }))
 ```
 After the first run, you will see that a mock file is created where needed.
 
-You can also pass some source code as a string. For example:
+Notice that the optional parameter are interchangeable, to you prefer the order you like more. Calling
+```
+AWS.config.loadFromPath(requireOrMock('awsConfig.json', {
+  "accessKeyId": "",
+  "secretAccessKey": "",
+  "region": "us-east-2"
+}, true))
+```
+works as well.
+
+### Using the config file
+
+You can also set the mock in `require-or-mock-config.js` as
+```
+module.exports = {
+  'awsConfig.json': {
+    accessKeyId: '',
+    secretAccessKey: '',
+    region: 'us-east-2'
+  }
+}
+```
+and load it, simply, as
+```
+const requireOrMock = require('require-or-mock')
+const AWS = require('aws-sdk')
+AWS.config.loadFromPath(requireOrMock('awsConfig.json', true))
+```
+
+
+
+### A mock can be anything
+
+For example, you can pass the source code of a JS file as a string:
 
 ```
 const requireOrMock = require('require-or-mock')
@@ -78,8 +129,6 @@ const doSomething = require(requireOrMock('awsConfig.json', true, `module.export
 }
 }`)
 ```
-
-
 
 ## License
 MIT
