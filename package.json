@@ -1,6 +1,6 @@
 {
   "name": "require-or-mock",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Require a given module if it exists or get a mock",
   "homepage": "https://github.com/sullof/require-or-mock#readme",
   "bugs": {

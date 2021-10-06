@@ -16,7 +16,7 @@ const awsConfig = requireOrMock('envs/secretKeys.json')
 ```
 (notice that the path in requireOrMock MUST be relative to the root of your project and MUST include the extension)
 
-In the example above, if the file does not exist, requireOrMock will return an empty object. A better way to manage it is to add a `.require-or-mock.config.js` file in the root of the project and set up any mock you need there.
+In the example above, if the file does not exist, requireOrMock will return an empty object. A better way to manage it is to add a `.require-or-mock-config.js` file in the root of the project and set up any mock you need there.
 In the example above, it could be:
 ```
 module.exports = {
