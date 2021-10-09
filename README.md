@@ -16,7 +16,7 @@ The solution is to use requireOrMock.
 const requireOrMock = require('require-or-mock')
 const awsConfig = requireOrMock('envs/secretKeys.json')
 ```
-(notice that the path in requireOrMock MUST be relative to the root of your project and MUST include the extension)
+(notice that the path in requireOrMock MUST be relative to the project's root and MUST include the extension)
 
 In the example above, if the file does not exist, requireOrMock will return an empty object. A better way to manage it is to add a `require-or-mock-config.js` file in the root of the project and set up any mock you need there.
 In the example above, it could be:
@@ -40,7 +40,7 @@ const awsConfig = requireOrMock('envs/secretKeys.json', {
 
 The inline mock has priority on the mock config file.
 
-If no mock is specified, an empty object will be returned.
+If no mock is specified, it will return an empty object.
 
 ## Just 3 params
 
@@ -48,7 +48,7 @@ RequireOrMock accepts three params:
 
 **moduleRelativePath** (String, mandatory)
 
-The first, mandatory, is the path relative to the root of the project of the library we like to require.
+The first, mandatory, is the path (relative to the project's root) to the library we like to require.
 
 **returnFilePathOnly** (Boolean, optional)
 
@@ -87,7 +87,7 @@ AWS.config.loadFromPath(requireOrMock('awsConfig.json', true, {
 ```
 After the first run, you will see that a mock file is created where needed.
 
-Notice that the optional parameter are interchangeable and the following works as weel
+Notice that the optional parameter are interchangeable, and the following works as well
 ```
 AWS.config.loadFromPath(requireOrMock('awsConfig.json', {
   accessKeyId: '',
@@ -108,7 +108,7 @@ module.exports = {
   }
 }
 ```
-and load it, simply, as
+and load it as
 ```
 const requireOrMock = require('require-or-mock')
 const AWS = require('aws-sdk')
@@ -144,7 +144,7 @@ Mark,Austing,TX
 
 ## Aliases: requireModule & requirePath
 
-The three params syntax works well, but some people prefer to have a clear separation between a command that replace `require` and another command that check if a file exists and create it if not, returning its filepath. Since version 0.2.1, you can use alias commands.
+The three params syntax works well, but some people prefer a clear separation between a command that replaces `require` and another command that checks if a file exists and creates it if not, returning its file path. Since version 0.2.1, you can use alias commands.
 
 Let's take the example in the previous chapter:
 ```
