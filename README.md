@@ -142,7 +142,7 @@ Mark,Austing,TX
 `)
 ```
 
-### Aliases: requireModule & requirePath
+## Aliases: requireModule & requirePath
 
 The three params syntax works well, but some people prefer to have a clear separation between a command that replace `require` and another command that check if a file exists and create it if not, returning its filepath. Since version 0.2.1, you can use alias commands.
 
