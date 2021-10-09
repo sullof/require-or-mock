@@ -160,7 +160,7 @@ const AWS = require('aws-sdk')
 AWS.config.loadFromPath(requirePath('awsConfig.json'))
 ```
 
-Finally, you can do something like this:~~~~
+Finally, you can do something like this:
 ```
 const {requireModule, requirePath} = require('require-or-mock')
 const AWS = require('aws-sdk')
