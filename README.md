@@ -142,6 +142,35 @@ Mark,Austing,TX
 `)
 ```
 
+### Aliases: requireModule & requirePath
+
+The three params syntax works well, but some people prefer to have a clear separation between a command that replace `require` and another command that check if a file exists and create it if not, returning its filepath. Since version 0.2.1, you can use alias commands.
+
+Let's take the example in the previous chapter:
+```
+const requireOrMock = require('require-or-mock')
+const AWS = require('aws-sdk')
+AWS.config.loadFromPath(requireOrMock('awsConfig.json', true))
+```
+
+You can use `requirePath` instead:
+```
+const {requirePath} = require('require-or-mock')
+const AWS = require('aws-sdk')
+AWS.config.loadFromPath(requirePath('awsConfig.json'))
+```
+
+Finally, you can do something like this:~~~~
+```
+const {requireModule, requirePath} = require('require-or-mock')
+const AWS = require('aws-sdk')
+const keyManager = requireModule('lib/keyManager.js')
+
+AWS.config.loadFromPath(requirePath('awsConfig.json'))
+```
+
+You choose your favorite style.
+
 ## License
 MIT
 

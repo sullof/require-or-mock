@@ -1,8 +1,6 @@
 const path = require('path')
 const fs = require('fs-extra')
-
-const configFile = path.join(process.cwd(), 'require-or-mock-config.js')
-const config = fs.existsSync(configFile) ? require(configFile) : {}
+let config
 
 function write(absolutePath, content) {
   fs.ensureDirSync(path.dirname(absolutePath))
@@ -13,7 +11,21 @@ function write(absolutePath, content) {
   )
 }
 
+function checkMock(mock) {
+  if (!~['undefined', 'object', 'string'].indexOf(typeof mock)) {
+    throw new Error('Wrong mock format passed')
+  }
+}
+
+function loadConfig() {
+  if (typeof config === 'undefined') {
+    const configFile = path.join(process.cwd(), 'require-or-mock-config.js')
+    config = fs.existsSync(configFile) ? require(configFile) : {}
+  }
+}
+
 function requireOrMock(filepath, ...params) {
+  loadConfig()
   const absolutePath = path.join(process.cwd(), filepath)
   let [returnPathOnly, mock] = params || []
   if (returnPathOnly && returnPathOnly !== true) {
@@ -21,9 +33,7 @@ function requireOrMock(filepath, ...params) {
     mock = returnPathOnly
     returnPathOnly = tmp
   }
-  if (!~['undefined', 'object', 'string'].indexOf(typeof mock)) {
-    throw new Error('Wrong mock format passed')
-  }
+  checkMock(mock)
   if (returnPathOnly === true) {
     if (!fs.existsSync(absolutePath)) {
       write(absolutePath, mock || config[filepath] || {})
@@ -44,4 +54,17 @@ function requireOrMock(filepath, ...params) {
   }
 }
 
+function requireModule(filePath, mock) {
+  checkMock(mock)
+  return requireOrMock(filePath, mock)
+}
+
+function requirePath(filePath, mock) {
+  checkMock(mock)
+  return requireOrMock(filePath, true, mock)
+}
+
 module.exports = requireOrMock
+module.exports.requireModule = requireModule
+module.exports.requirePath = requirePath
+

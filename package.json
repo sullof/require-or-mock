@@ -1,6 +1,6 @@
 {
   "name": "require-or-mock",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Require a given module if it exists or get a mock",
   "homepage": "https://github.com/sullof/require-or-mock#readme",
   "bugs": {
@@ -15,10 +15,10 @@
   },
   "scripts": {
     "release": "np",
-    "lint": "eslint -c .eslintrc 'index.js' 'test/test.js'",
+    "lint": "eslint -c .eslintrc 'index.js' 'test/no-config.test.js'",
     "all-tests": "find test/** -name '*.test.js' | xargs ./node_modules/.bin/mocha -R spec",
-    "test-only": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/test.js --exit",
-    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text ./node_modules/.bin/_mocha test/test.js --exit",
+    "test-only": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/*.test.js --exit",
+    "test": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text ./node_modules/.bin/_mocha test/*.test.js --exit",
     "posttest": "nyc check-coverage --statements 90 --branches 80 --functions 85 --lines 90"
   },
   "dependencies": {

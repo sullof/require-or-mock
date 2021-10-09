@@ -3,7 +3,6 @@ const path = require('path')
 const fs = require('fs-extra')
 let requireOrMock
 
-
 describe('require-or-mock', async function () {
 
   before(async function () {
@@ -23,6 +22,8 @@ describe('require-or-mock', async function () {
 
   describe('Load module', async function () {
 
+    let {requireModule, requirePath} = require('..')
+
     it('should return the existing module', async function () {
 
       const SomeModule = requireOrMock('test/someModule.js')
@@ -38,9 +39,9 @@ describe('require-or-mock', async function () {
 
     })
 
-    it('should return a mock from a passed value ', async function () {
+    it('should return a mock from a passed value using requireModule', async function () {
 
-      const someOtherMissingModule = requireOrMock('lib/someOtherMissingModule.js', {
+      const someOtherMissingModule = requireModule('lib/someOtherMissingModule.js', {
         hello: 'Ciao'
       })
       assert.equal(someOtherMissingModule.hello, 'Ciao')
@@ -69,10 +70,26 @@ describe('require-or-mock', async function () {
       } catch(e) {
         assert.equal(e.message, 'Wrong mock format passed')
       }
+
+      try {
+        requireModule('lib/someOtherMissingModule.js', 33)
+        assert.isTrue(false)
+      } catch(e) {
+        assert.equal(e.message, 'Wrong mock format passed')
+      }
+
+      try {
+        requirePath('lib/someOtherMissingModule.js', 33)
+        assert.isTrue(false)
+      } catch(e) {
+        assert.equal(e.message, 'Wrong mock format passed')
+      }
     })
   })
 
   describe('Create missing module', async function () {
+
+    let {requirePath} = require('..')
 
     it('should create a missing but needed JSON file', async function () {
 
@@ -99,6 +116,13 @@ describe('require-or-mock', async function () {
     it('should create a missing, empty JSON file', async function () {
 
       const some = require(requireOrMock('tmp/someJSON2.json', true))
+      assert.equal(Object.keys(some).length, 0)
+
+    })
+
+    it('should create a missing, empty JSON file using requirePath', async function () {
+
+      const some = require(requirePath('tmp/someJSON2.json'))
       assert.equal(Object.keys(some).length, 0)
 
     })
